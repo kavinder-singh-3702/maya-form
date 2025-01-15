@@ -31,10 +31,46 @@ const KOLWithMayaForm = () => {
     },
   });
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     console.log("Form data:", data);
-    setOpen(true);
-    reset(); // Reset the form after submission
+
+    // Prepare the message
+    const message = `
+      <b>KOL with MAYA Submission</b>
+      <b>Project Name:</b> ${data.projectName}
+      <b>Ticker:</b> ${data.ticker}
+      <b>Twitter Handle:</b> ${data.twitterHandle}
+      <b>Website:</b> ${data.website}
+      <b>Maya Focus:</b> ${data.mayaFocus}
+      <b>Alpha News:</b> ${data.alphaNews || "N/A"}
+    `;
+
+    try {
+      // Submit to Telegram
+      const token = "7203146478:AAGD-NN4k9qZTGcJj5M_JmpdIBbU6JqpYfM";
+      const chatId = "@maya_forms";
+      const url = `https://api.telegram.org/bot${token}/sendMessage`;
+
+      const response = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          chat_id: chatId,
+          text: message,
+          parse_mode: "HTML",
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to send message to Telegram");
+      }
+
+      console.log("Message sent to Telegram!");
+      setOpen(true); // Show success dialog
+      reset(); // Reset the form
+    } catch (error) {
+      console.error("Error sending message to Telegram:", error);
+    }
   };
 
   return (
