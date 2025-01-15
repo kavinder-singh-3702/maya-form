@@ -15,38 +15,41 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import "@fontsource/cinzel-decorative"; // Import Cinzel Decorative font
-import { styled } from "@mui/system";
 
 const KOLWithMayaForm = () => {
   const [open, setOpen] = useState(false);
 
   const { control, handleSubmit, formState, reset } = useForm({
     defaultValues: {
-      projectName: "",
+      name: "",
       ticker: "",
-      twitterHandle: "",
+      CA: "",
+      twitter_handle: "",
       website: "",
-      mayaFocus: "",
-      alphaNews: "",
+      focus: "",
+      news: "",
     },
   });
 
   const onSubmit = async (data) => {
+    if (!data.website.startsWith("https://")) {
+      data.website = `https://${data.website}`;
+    }
+
     console.log("Form data:", data);
 
-    // Prepare the message
     const message = `
-      <b>KOL with MAYA Submission</b>
-      <b>Project Name:</b> ${data.projectName}
+      <b>Ask Maya To Shill Submission</b>
+      <b>Name:</b> ${data.name}
       <b>Ticker:</b> ${data.ticker}
-      <b>Twitter Handle:</b> ${data.twitterHandle}
+      <b>CA:</b> ${data.CA}
+      <b>Twitter Handle:</b> ${data.twitter_handle}
       <b>Website:</b> ${data.website}
-      <b>Maya Focus:</b> ${data.mayaFocus}
-      <b>Alpha News:</b> ${data.alphaNews || "N/A"}
+      <b>Focus:</b> ${data.focus}
+      <b>News:</b> ${data.news}
     `;
 
     try {
-      // Submit to Telegram
       const token = "7203146478:AAGD-NN4k9qZTGcJj5M_JmpdIBbU6JqpYfM";
       const chatId = "@maya_forms";
       const url = `https://api.telegram.org/bot${token}/sendMessage`;
@@ -66,8 +69,8 @@ const KOLWithMayaForm = () => {
       }
 
       console.log("Message sent to Telegram!");
-      setOpen(true); // Show success dialog
-      reset(); // Reset the form
+      setOpen(true);
+      reset();
     } catch (error) {
       console.error("Error sending message to Telegram:", error);
     }
@@ -89,7 +92,6 @@ const KOLWithMayaForm = () => {
         overflow: "hidden",
       }}
     >
-      {/* Form Title */}
       <Typography
         variant="h4"
         gutterBottom
@@ -100,10 +102,9 @@ const KOLWithMayaForm = () => {
           fontFamily: "'Cinzel Decorative', serif",
         }}
       >
-        KOL with MAYA
+        Ask Maya To Shill. <span style={{ color: "#fff" }}>*</span>
       </Typography>
 
-      {/* Form */}
       <Grow in>
         <Box
           component="form"
@@ -117,15 +118,14 @@ const KOLWithMayaForm = () => {
             width: "100%",
           }}
         >
-          {/* Name of Project */}
+          {/* Name */}
           <Controller
-            name="projectName"
+            name="name"
             control={control}
-            rules={{ required: "Project name is required" }}
             render={({ field }) => (
               <TextField
                 {...field}
-                label="Name of project"
+                label="Name"
                 variant="outlined"
                 fullWidth
                 margin="normal"
@@ -135,8 +135,6 @@ const KOLWithMayaForm = () => {
                 InputLabelProps={{
                   sx: { color: "#aaaaaa" },
                 }}
-                error={!!formState.errors.projectName}
-                helperText={formState.errors.projectName?.message}
               />
             )}
           />
@@ -153,7 +151,7 @@ const KOLWithMayaForm = () => {
             render={({ field }) => (
               <TextField
                 {...field}
-                label="Ticker (must start with $)"
+                label="Ticker (must start with $) *"
                 variant="outlined"
                 fullWidth
                 margin="normal"
@@ -169,19 +167,20 @@ const KOLWithMayaForm = () => {
             )}
           />
 
-          {/* Twitter Handle */}
+          {/* CA */}
           <Controller
-            name="twitterHandle"
+            name="CA"
             control={control}
             rules={{
-              required: "Twitter handle is required",
-              validate: (value) =>
-                value.startsWith("@") || "Twitter handle must start with @",
+              pattern: {
+                value: /^[a-zA-Z0-9]+$/,
+                message: "CA must be alphanumeric",
+              },
             }}
             render={({ field }) => (
               <TextField
                 {...field}
-                label="Twitter handle"
+                label="CA (Alphanumeric) "
                 variant="outlined"
                 fullWidth
                 margin="normal"
@@ -191,8 +190,36 @@ const KOLWithMayaForm = () => {
                 InputLabelProps={{
                   sx: { color: "#aaaaaa" },
                 }}
-                error={!!formState.errors.twitterHandle}
-                helperText={formState.errors.twitterHandle?.message}
+                error={!!formState.errors.CA}
+                helperText={formState.errors.CA?.message}
+              />
+            )}
+          />
+
+          {/* Twitter Handle */}
+          <Controller
+            name="twitter_handle"
+            control={control}
+            rules={{
+              required: "Twitter handle is required",
+              validate: (value) =>
+                value.startsWith("@") || "Twitter handle must start with @",
+            }}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                label="Twitter handle *"
+                variant="outlined"
+                fullWidth
+                margin="normal"
+                InputProps={{
+                  sx: { backgroundColor: "#2b2b2b", color: "#fff" },
+                }}
+                InputLabelProps={{
+                  sx: { color: "#aaaaaa" },
+                }}
+                error={!!formState.errors.twitter_handle}
+                helperText={formState.errors.twitter_handle?.message}
               />
             )}
           />
@@ -202,10 +229,11 @@ const KOLWithMayaForm = () => {
             name="website"
             control={control}
             rules={{
-              required: "Website is required",
-              pattern: {
-                value: /^(https?:\/\/)([\w\d-]+\.){1,}([a-zA-Z]{2,})(\/.*)?$/,
-                message: "Must be a valid URL starting with http or https",
+              validate: (value) => {
+                if (value.startsWith("http:")) {
+                  return "Only https is allowed";
+                }
+                return true;
               },
             }}
             render={({ field }) => (
@@ -227,15 +255,14 @@ const KOLWithMayaForm = () => {
             )}
           />
 
-          {/* Maya Focus */}
+          {/* Focus */}
           <Controller
-            name="mayaFocus"
+            name="focus"
             control={control}
-            rules={{ required: "This field is required" }}
             render={({ field }) => (
               <TextField
                 {...field}
-                label="What should Maya's focus be?"
+                label="Focus"
                 variant="outlined"
                 fullWidth
                 margin="normal"
@@ -247,20 +274,18 @@ const KOLWithMayaForm = () => {
                 InputLabelProps={{
                   sx: { color: "#aaaaaa" },
                 }}
-                error={!!formState.errors.mayaFocus}
-                helperText={formState.errors.mayaFocus?.message}
               />
             )}
           />
 
-          {/* Alpha News */}
+          {/* News */}
           <Controller
-            name="alphaNews"
+            name="news"
             control={control}
             render={({ field }) => (
               <TextField
                 {...field}
-                label="Any alpha or news to share?"
+                label="News"
                 variant="outlined"
                 fullWidth
                 margin="normal"
@@ -289,7 +314,6 @@ const KOLWithMayaForm = () => {
           </Button>
         </Box>
       </Grow>
-
       {/* Dialog */}
       <Dialog
         open={open}
@@ -347,31 +371,6 @@ const KOLWithMayaForm = () => {
           </Button>
         </DialogActions>
       </Dialog>
-
-      {/* White Paper Button */}
-      <Button
-        href="https://docs.google.com/document/d/e/2PACX-1vRCg9hBMKRcMqUFuDnNvjko9z0m47NGib6UaMpbkPcob9YY9cWNlp7j-wn5PU-5zZGU05O_LqnioGRn/pub"
-        target="_blank"
-        rel="noopener noreferrer"
-        sx={{
-          position: "fixed",
-          bottom: "20px",
-          right: "20px",
-          backgroundColor: "#fff",
-          color: "#000",
-          fontWeight: "bold",
-          borderRadius: "8px",
-          padding: "12px 16px",
-          boxShadow: "0 4px 10px rgba(255, 255, 255, 0.3)",
-          "&:hover": {
-            backgroundColor: "#f0f0f0",
-            transform: "scale(1.05)",
-            transition: "all 0.3s ease-in-out",
-          },
-        }}
-      >
-        White Paper
-      </Button>
     </Box>
   );
 };
