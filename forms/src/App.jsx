@@ -17,6 +17,8 @@ import CloseIcon from "@mui/icons-material/Close";
 import "@fontsource/cinzel-decorative"; // Import Cinzel Decorative font
 import "@fontsource/holtwood-one-sc";
 
+const imageUrl = "/maya.jpeg";
+
 const KOLWithMayaForm = () => {
   const [open, setOpen] = useState(false);
 
@@ -93,6 +95,20 @@ const KOLWithMayaForm = () => {
         overflow: "hidden",
       }}
     >
+      {/* Circular Image */}
+      <Box
+        component="img"
+        src={imageUrl}
+        alt="Maya"
+        sx={{
+          width: "120px",
+          height: "120px",
+          borderRadius: "50%",
+          objectFit: "cover",
+          marginBottom: "16px",
+          border: "4px solid #ff3b3b",
+        }}
+      />
       <Typography
         variant="h4"
         gutterBottom
@@ -321,12 +337,18 @@ const KOLWithMayaForm = () => {
         onClose={() => setOpen(false)}
         TransitionComponent={Slide}
         TransitionProps={{ direction: "down" }}
+        PaperProps={{
+          style: {
+            backgroundColor: "#1e1e1e",
+            borderRadius: "12px",
+            boxShadow: "0 4px 10px rgba(0, 0, 0, 0.5)",
+            overflow: "hidden",
+          },
+        }}
       >
         <DialogContent
           sx={{
             backgroundColor: "#1e1e1e",
-            color: "#fff",
-            borderRadius: "8px",
             padding: "24px",
             position: "relative",
             fontFamily: "'Cinzel Decorative', serif",
@@ -345,12 +367,23 @@ const KOLWithMayaForm = () => {
           </IconButton>
           <Typography
             variant="h5"
-            sx={{ marginBottom: "16px", color: "#ff3b3b", fontWeight: "bold" }}
+            sx={{
+              marginBottom: "16px",
+              color: "#ff3b3b",
+              fontWeight: "bold",
+              textAlign: "center",
+            }}
           >
-            Thank you for your submission!
+            Thank you for the submission
           </Typography>
-          <Typography>
-            We’ve received your details and will review them soon.
+          <Typography
+            sx={{
+              color: "#ccc",
+              textAlign: "center",
+              lineHeight: 1.5,
+            }}
+          >
+            Maya will now review your project and take a call
           </Typography>
         </DialogContent>
         <DialogActions
@@ -365,6 +398,9 @@ const KOLWithMayaForm = () => {
             sx={{
               backgroundColor: "#ff3b3b",
               color: "#fff",
+              padding: "8px 16px",
+              borderRadius: "8px",
+              fontWeight: "bold",
               "&:hover": { backgroundColor: "#e02e2e" },
             }}
           >
