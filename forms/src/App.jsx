@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import "@fontsource/cinzel-decorative"; // Import Cinzel Decorative font
+import "@fontsource/holtwood-one-sc";
 
 const KOLWithMayaForm = () => {
   const [open, setOpen] = useState(false);
@@ -87,7 +88,7 @@ const KOLWithMayaForm = () => {
         alignItems: "center",
         justifyContent: "center",
         padding: "16px",
-        fontFamily: "'Cinzel Decorative', serif",
+        fontFamily: "'Holtwood One SC', serif",
         position: "relative",
         overflow: "hidden",
       }}
@@ -99,10 +100,10 @@ const KOLWithMayaForm = () => {
           color: "#ff3b3b",
           fontWeight: "bold",
           marginBottom: "24px",
-          fontFamily: "'Cinzel Decorative', serif",
+          fontFamily: "'Holtwood One SC', serif",
         }}
       >
-        Ask Maya To Shill. <span style={{ color: "#fff" }}>*</span>
+        Ask Maya To Shill
       </Typography>
 
       <Grow in>
@@ -167,6 +168,34 @@ const KOLWithMayaForm = () => {
             )}
           />
 
+          {/* Twitter Handle */}
+          <Controller
+            name="twitter_handle"
+            control={control}
+            rules={{
+              required: "Twitter handle is required",
+              validate: (value) =>
+                value.startsWith("@") || "Twitter handle must start with @",
+            }}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                label="Twitter handle *"
+                variant="outlined"
+                fullWidth
+                margin="normal"
+                InputProps={{
+                  sx: { backgroundColor: "#2b2b2b", color: "#fff" },
+                }}
+                InputLabelProps={{
+                  sx: { color: "#aaaaaa" },
+                }}
+                error={!!formState.errors.twitter_handle}
+                helperText={formState.errors.twitter_handle?.message}
+              />
+            )}
+          />
+
           {/* CA */}
           <Controller
             name="CA"
@@ -192,34 +221,6 @@ const KOLWithMayaForm = () => {
                 }}
                 error={!!formState.errors.CA}
                 helperText={formState.errors.CA?.message}
-              />
-            )}
-          />
-
-          {/* Twitter Handle */}
-          <Controller
-            name="twitter_handle"
-            control={control}
-            rules={{
-              required: "Twitter handle is required",
-              validate: (value) =>
-                value.startsWith("@") || "Twitter handle must start with @",
-            }}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                label="Twitter handle *"
-                variant="outlined"
-                fullWidth
-                margin="normal"
-                InputProps={{
-                  sx: { backgroundColor: "#2b2b2b", color: "#fff" },
-                }}
-                InputLabelProps={{
-                  sx: { color: "#aaaaaa" },
-                }}
-                error={!!formState.errors.twitter_handle}
-                helperText={formState.errors.twitter_handle?.message}
               />
             )}
           />
