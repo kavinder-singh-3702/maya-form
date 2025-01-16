@@ -16,6 +16,7 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import "@fontsource/cinzel-decorative"; // Import Cinzel Decorative font
 import "@fontsource/holtwood-one-sc";
+import emailjs from "emailjs-com";
 
 const imageUrl = "/maya.jpeg";
 
@@ -45,19 +46,20 @@ const KOLWithMayaForm = () => {
       <b>Ask Maya To Shill Submission</b>
       <b>Name:</b> ${data.name}
       <b>Ticker:</b> ${data.ticker}
-      <b>CA:</b> ${data.CA}
+      <b>Contact Address:</b> ${data.CA}
       <b>Twitter Handle:</b> ${data.twitter_handle}
       <b>Website:</b> ${data.website}
-      <b>Focus:</b> ${data.focus}
-      <b>News:</b> ${data.news}
+      <b>A short project intro:</b> ${data.focus}
+      <b>Any latest news or developments:</b> ${data.news}
     `;
 
     try {
+      // Telegram Integration
       const token = "7203146478:AAGD-NN4k9qZTGcJj5M_JmpdIBbU6JqpYfM";
       const chatId = "@maya_forms";
-      const url = `https://api.telegram.org/bot${token}/sendMessage`;
+      const telegramUrl = `https://api.telegram.org/bot${token}/sendMessage`;
 
-      const response = await fetch(url, {
+      const telegramResponse = await fetch(telegramUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -67,15 +69,36 @@ const KOLWithMayaForm = () => {
         }),
       });
 
-      if (!response.ok) {
+      if (!telegramResponse.ok) {
         throw new Error("Failed to send message to Telegram");
       }
 
       console.log("Message sent to Telegram!");
+
+      // EmailJS Integration
+      const emailParams = {
+        name: data.name,
+        ticker: data.ticker,
+        CA: data.CA,
+        twitter_handle: data.twitter_handle,
+        website: data.website,
+        focus: data.focus,
+        news: data.news,
+      };
+
+      await emailjs.send(
+        "service_8ju8id3", // Replace with your EmailJS service ID
+        "template_sfty2ik", // Replace with your EmailJS template ID
+        emailParams,
+        "uvVg_NEbCQo0v4cEL" // Replace with your EmailJS public key/user ID
+      );
+
+      console.log("Message sent via EmailJS!");
+
       setOpen(true);
       reset();
     } catch (error) {
-      console.error("Error sending message to Telegram:", error);
+      console.error("Error sending message:", error);
     }
   };
 
@@ -219,13 +242,13 @@ const KOLWithMayaForm = () => {
             rules={{
               pattern: {
                 value: /^[a-zA-Z0-9]+$/,
-                message: "CA must be alphanumeric",
+                message: "Contract Address must be alphanumeric",
               },
             }}
             render={({ field }) => (
               <TextField
                 {...field}
-                label="CA (Alphanumeric) "
+                label="Contract Address (Alphanumeric) "
                 variant="outlined"
                 fullWidth
                 margin="normal"
@@ -279,7 +302,7 @@ const KOLWithMayaForm = () => {
             render={({ field }) => (
               <TextField
                 {...field}
-                label="Focus"
+                label="A short project intro"
                 variant="outlined"
                 fullWidth
                 margin="normal"
@@ -302,7 +325,7 @@ const KOLWithMayaForm = () => {
             render={({ field }) => (
               <TextField
                 {...field}
-                label="News"
+                label="Any latest news or developments"
                 variant="outlined"
                 fullWidth
                 margin="normal"
