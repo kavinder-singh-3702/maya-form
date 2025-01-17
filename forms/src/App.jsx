@@ -95,6 +95,24 @@ const KOLWithMayaForm = () => {
 
       console.log("Message sent via EmailJS!");
 
+      // API Integration
+      const apiUrl =
+        "https://dolphin-app-tbrkb.ondigitalocean.app/api/maya-forms/";
+
+      const apiResponse = await fetch(apiUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!apiResponse.ok) {
+        throw new Error("Failed to send data to the API endpoint");
+      }
+
+      console.log("Data sent to the API endpoint!");
+
       setOpen(true);
       reset();
     } catch (error) {
