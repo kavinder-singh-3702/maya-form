@@ -45,12 +45,12 @@ const KOLWithMayaForm = () => {
     const message = `
       <b>Ask Maya To Shill Submission</b>
       <b>Name:</b> ${data.name}
-      <b>Ticker:</b> ${data.ticker}
-      <b>Contact Address:</b> ${data.CA}
-      <b>Twitter Handle:</b> ${data.twitter_handle}
-      <b>Website:</b> ${data.website}
-      <b>A short project intro:</b> ${data.intro}
-      <b>Any latest news or developments:</b> ${data.news}
+      <b>ticker:</b> ${data.ticker}
+      <b>CA:</b> ${data.CA}
+      <b>twitter_handle:</b> ${data.twitter_handle}
+      <b>website:</b> ${data.website}
+      <b>intro:</b> ${data.intro}
+      <b>news:</b> ${data.news}
     `;
 
     try {
