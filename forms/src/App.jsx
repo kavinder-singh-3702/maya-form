@@ -30,7 +30,7 @@ const KOLWithMayaForm = () => {
       CA: "",
       twitter_handle: "",
       website: "",
-      focus: "",
+      intro: "",
       news: "",
     },
   });
@@ -49,7 +49,7 @@ const KOLWithMayaForm = () => {
       <b>Contact Address:</b> ${data.CA}
       <b>Twitter Handle:</b> ${data.twitter_handle}
       <b>Website:</b> ${data.website}
-      <b>A short project intro:</b> ${data.focus}
+      <b>A short project intro:</b> ${data.intro}
       <b>Any latest news or developments:</b> ${data.news}
     `;
 
@@ -82,7 +82,7 @@ const KOLWithMayaForm = () => {
         CA: data.CA,
         twitter_handle: data.twitter_handle,
         website: data.website,
-        focus: data.focus,
+        intro: data.intro,
         news: data.news,
       };
 
@@ -315,7 +315,7 @@ const KOLWithMayaForm = () => {
 
           {/* Focus */}
           <Controller
-            name="focus"
+            name="intro"
             control={control}
             render={({ field }) => (
               <TextField
