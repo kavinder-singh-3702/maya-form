@@ -266,7 +266,7 @@ const KOLWithMayaForm = () => {
             render={({ field }) => (
               <TextField
                 {...field}
-                label="Contract Address (Alphanumeric) "
+                label="CA (Contract address)"
                 variant="outlined"
                 fullWidth
                 margin="normal"
