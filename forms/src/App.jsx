@@ -27,7 +27,7 @@ const KOLWithMayaForm = () => {
     defaultValues: {
       name: "",
       ticker: "",
-      CA: "",
+      ca: "",
       twitter_handle: "",
       website: "",
       intro: "",
@@ -46,7 +46,7 @@ const KOLWithMayaForm = () => {
       <b>Ask Maya To Shill Submission</b>
       <b>Name:</b> ${data.name}
       <b>ticker:</b> ${data.ticker}
-      <b>CA:</b> ${data.CA}
+      <b>CA:</b> ${data.ca}
       <b>twitter_handle:</b> ${data.twitter_handle}
       <b>website:</b> ${data.website}
       <b>intro:</b> ${data.intro}
@@ -79,7 +79,7 @@ const KOLWithMayaForm = () => {
       const emailParams = {
         name: data.name,
         ticker: data.ticker,
-        CA: data.CA,
+        CA: data.ca,
         twitter_handle: data.twitter_handle,
         website: data.website,
         intro: data.intro,
@@ -255,7 +255,7 @@ const KOLWithMayaForm = () => {
 
           {/* CA */}
           <Controller
-            name="CA"
+            name="ca"
             control={control}
             rules={{
               pattern: {
@@ -276,8 +276,8 @@ const KOLWithMayaForm = () => {
                 InputLabelProps={{
                   sx: { color: "#aaaaaa" },
                 }}
-                error={!!formState.errors.CA}
-                helperText={formState.errors.CA?.message}
+                error={!!formState.errors.ca}
+                helperText={formState.errors.ca?.message}
               />
             )}
           />
