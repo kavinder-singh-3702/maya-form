@@ -75,25 +75,25 @@ const KOLWithMayaForm = () => {
 
       console.log("Message sent to Telegram!");
 
-      // EmailJS Integration
-      const emailParams = {
-        name: data.name,
-        ticker: data.ticker,
-        CA: data.ca,
-        twitter_handle: data.twitter_handle,
-        website: data.website,
-        intro: data.intro,
-        news: data.news,
-      };
+      // // EmailJS Integration
+      // const emailParams = {
+      //   name: data.name,
+      //   ticker: data.ticker,
+      //   CA: data.ca,
+      //   twitter_handle: data.twitter_handle,
+      //   website: data.website,
+      //   intro: data.intro,
+      //   news: data.news,
+      // };
 
-      await emailjs.send(
-        "service_8ju8id3", // Replace with your EmailJS service ID
-        "template_sfty2ik", // Replace with your EmailJS template ID
-        emailParams,
-        "uvVg_NEbCQo0v4cEL" // Replace with your EmailJS public key/user ID
-      );
+      // await emailjs.send(
+      //   "service_8ju8id3", // Replace with your EmailJS service ID
+      //   "template_sfty2ik", // Replace with your EmailJS template ID
+      //   emailParams,
+      //   "uvVg_NEbCQo0v4cEL" // Replace with your EmailJS public key/user ID
+      // );
 
-      console.log("Message sent via EmailJS!");
+      // console.log("Message sent via EmailJS!");
 
       // API Integration
       const apiUrl =
