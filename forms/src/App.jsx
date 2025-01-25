@@ -43,18 +43,18 @@ const KOLWithMayaForm = () => {
     console.log("Form data:", data);
 
     const message = `
-      <b>Ask Maya To Shill Submission</b>
-      <b>Name:</b> ${data.name}
-      <b>ticker:</b> ${data.ticker}
-      <b>CA:</b> ${data.ca}
-      <b>twitter_handle:</b> ${data.twitter_handle}
-      <b>website:</b> ${data.website}
-      <b>intro:</b> ${data.intro}
-      <b>news:</b> ${data.news}
+        <b>Ask Maya To Shill Submission</b>
+        <b>Name:</b> ${data.name}
+        <b>ticker:</b> ${data.ticker}
+        <b>CA:</b> ${data.ca}
+        <b>twitter_handle:</b> ${data.twitter_handle}
+        <b>website:</b> ${data.website}
+        <b>intro:</b> ${data.intro}
+        <b>news:</b> ${data.news}
     `;
 
     try {
-      // Telegram Integration
+      // Telegram Integration (optional)
       const token = "7203146478:AAGD-NN4k9qZTGcJj5M_JmpdIBbU6JqpYfM";
       const chatId = "@maya_forms";
       const telegramUrl = `https://api.telegram.org/bot${token}/sendMessage`;
@@ -75,27 +75,33 @@ const KOLWithMayaForm = () => {
 
       console.log("Message sent to Telegram!");
 
-      // // EmailJS Integration
-      // const emailParams = {
-      //   name: data.name,
-      //   ticker: data.ticker,
-      //   CA: data.ca,
-      //   twitter_handle: data.twitter_handle,
-      //   website: data.website,
-      //   intro: data.intro,
-      //   news: data.news,
-      // };
+      // Payment Integration
 
-      // await emailjs.send(
-      //   "service_8ju8id3", // Replace with your EmailJS service ID
-      //   "template_sfty2ik", // Replace with your EmailJS template ID
-      //   emailParams,
-      //   "uvVg_NEbCQo0v4cEL" // Replace with your EmailJS public key/user ID
-      // );
+      const paymentResponse = await fetch(
+        "https://dolphin-app-tbrkb.ondigitalocean.app/api/maya-forms/payment",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
-      // console.log("Message sent via EmailJS!");
+      if (!paymentResponse.ok) {
+        throw new Error("Failed to generate payment link");
+      }
 
-      // API Integration
+      const paymentResult = await paymentResponse.json();
+      console.log("Payment link generated:", paymentResult);
+
+      // Redirect user to the payment page
+      if (paymentResult?.data?.link) {
+        window.location.href = paymentResult.data.link;
+      } else {
+        throw new Error("Invalid payment link response");
+      }
+
+      // Save form data after payment initiation
       const apiUrl =
         "https://dolphin-app-tbrkb.ondigitalocean.app/api/maya-forms/";
 
@@ -116,7 +122,7 @@ const KOLWithMayaForm = () => {
       setOpen(true);
       reset();
     } catch (error) {
-      console.error("Error sending message:", error);
+      console.error("Error during submission:", error);
     }
   };
 
