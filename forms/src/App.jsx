@@ -76,7 +76,6 @@ const KOLWithMayaForm = () => {
       console.log("Message sent to Telegram!");
 
       // Payment Integration
-
       const paymentResponse = await fetch(
         "https://dolphin-app-tbrkb.ondigitalocean.app/api/maya-forms/payment",
         {
@@ -94,9 +93,9 @@ const KOLWithMayaForm = () => {
       const paymentResult = await paymentResponse.json();
       console.log("Payment link generated:", paymentResult);
 
-      // Redirect user to the payment page
+      // Open payment link in a new tab
       if (paymentResult?.data?.link) {
-        window.location.href = paymentResult.data.link;
+        window.open(paymentResult.data.link, "_blank");
       } else {
         throw new Error("Invalid payment link response");
       }
@@ -119,6 +118,7 @@ const KOLWithMayaForm = () => {
 
       console.log("Data sent to the API endpoint!");
 
+      // Set open state and reset form
       setOpen(true);
       reset();
     } catch (error) {
