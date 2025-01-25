@@ -94,8 +94,8 @@ const KOLWithMayaForm = () => {
       console.log("Payment link generated:", paymentResult);
 
       // Open payment link in a new tab
-      if (paymentResult?.data?.link) {
-        window.open(paymentResult.data.link, "_blank");
+      if (paymentResult?.paymentLink) {
+        window.open(paymentResult.paymentLink, "_blank");
       } else {
         throw new Error("Invalid payment link response");
       }
